@@ -12,7 +12,7 @@ app.use(express.json());
 app.use(cors());
 
 app.get('/',(req,res)=>{
-  return res.send("API is working properly")
+  return res.send("API is working properly");
 })
 
 app.use('/api/v1/auth',authRoutes);
