@@ -11,9 +11,12 @@ const Dashboard = () => {
 
   const fetchReminders = async () => {
     try {
-      const { data } = await axios.get("http://localhost:3000/api/v1/reminder", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const { data } = await axios.get(
+        "http://localhost:3000/api/v1/reminder",
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       setReminders(data.reminders);
     } catch (error) {
       toast.error("Failed to fetch reminders.");
@@ -36,6 +39,11 @@ const Dashboard = () => {
     }
   };
 
+  const handleLogOut = () => {
+  localStorage.removeItem("token");
+  navigate("/login");
+};
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-white to-pink-100 px-6 pb-20 pt-12">
       {/* Header Section */}
@@ -43,7 +51,9 @@ const Dashboard = () => {
         <h1 className="text-5xl font-extrabold text-pink-600 drop-shadow-md">
           Welcome Back 💖
         </h1>
-        <p className="text-gray-600 mt-2 text-lg">Here's what's on your mind today...</p>
+        <p className="text-gray-600 mt-2 text-lg">
+          Here's what's on your mind today...
+        </p>
       </div>
 
       {/* Reminder List */}
@@ -60,14 +70,16 @@ const Dashboard = () => {
         ) : (
           reminders.map((reminder, index) => (
             <motion.div
-              key={reminder._id}
+              key={reminder.id}
               className="bg-white/50 backdrop-blur-lg border border-white/30 p-6 rounded-xl shadow-md flex justify-between items-start"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
             >
               <div>
-                <h2 className="text-2xl font-semibold text-pink-600">{reminder.title}</h2>
+                <h2 className="text-2xl font-semibold text-pink-600">
+                  {reminder.title}
+                </h2>
                 <p className="text-gray-700 mt-1">{reminder.content}</p>
                 <p className="text-sm text-gray-500 mt-2">
                   ⏰ Remind at:{" "}
@@ -76,7 +88,9 @@ const Dashboard = () => {
                     timeStyle: "short",
                   }).format(new Date(reminder.remindAt))}
                 </p>
-                <p className="text-sm text-gray-500">🔁 Repeat: {reminder.repeat || "None"}</p>
+                <p className="text-sm text-gray-500">
+                  🔁 Repeat: {reminder.repeat || "None"}
+                </p>
               </div>
 
               <button
@@ -96,6 +110,14 @@ const Dashboard = () => {
         className="fixed w-14 h-14 flex items-center justify-center bottom-6 right-6 bg-pink-500 text-white rounded-full shadow-lg hover:bg-pink-600 transition duration-300 z-50"
       >
         <i className="bi bi-plus-lg text-2xl" />
+      </button>
+
+      <button
+      onClick={handleLogOut}
+        type="submit"
+        className="fixed w-24 h-9 rounded-md flex items-center justify-center top-6 right-6 bg-pink-500 text-white shadow-lg cursor-pointer hover:bg-pink-600 transition duration-300 z-50"
+      >
+        Log Out
       </button>
     </div>
   );

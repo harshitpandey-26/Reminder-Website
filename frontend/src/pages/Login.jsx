@@ -105,6 +105,8 @@ if (loading) return <Loading/>;
           >
             {isSubmitting ? "Submitting..." : "Log In"}
           </button>
+
+          <p className="text-[15px] font-bold text-center pb-6 text-pink-600">Don't have an account? <span onClick={()=>navigate('/')} className="text-blue-500 cursor-pointer underline"> SignUp</span></p>
         </form>
       </div>
     </div>

@@ -1,5 +1,12 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Playwrite+AU+QLD:wght@100..400&display=swap');
+
 
 *{
     box-sizing: border-box;
+    font-family: "Playwrite AU QLD", cursive;
+}
+
+button{
+    cursor: pointer;
 }

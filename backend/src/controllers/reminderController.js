@@ -1,9 +1,12 @@
 import prisma from "../db/prisma.js";
 
+// Creating reminder
 export const createReminder = async (req, res) => {
   const { title, content, remindAt, repeat } = req.body;
 
-  const reminder = await prisma.reminder.create({
+  try {
+
+     const reminder = await prisma.reminder.create({
     data: {
       userId: req.user.userId,
       title,
@@ -13,23 +16,46 @@ export const createReminder = async (req, res) => {
     },
   });
 
-  res
+  return res
     .status(201)
     .json({
       success: true,
       message: "Reminder created successfully!!",
       reminder,
     });
+    
+  } catch (error) {
+    return res.status(500).json({
+      success:false,
+      message:"Internal server error",
+      error:error.message
+    })
+  } 
 };
 
+
+// Getting all reminders
 export const getReminders = async (req, res) => {
-  const reminders = await prisma.reminder.findMany({
+
+  try {
+    const reminders = await prisma.reminder.findMany({
     where: { userId: req.user.userId },
   });
-  res.json({ success: true, reminders });
+  return res.json({ success: true, reminders });
+    
+  } catch (error) {
+    return res.status(500).json({
+      success:false,
+      message:"Internal server error",
+      error:error.message
+    })
+  }
+
+  
 };
 
 
+// Deleting reminders
 export const delReminders = async (req, res) => {
   const { id } = req.params;
   console.log(id);
